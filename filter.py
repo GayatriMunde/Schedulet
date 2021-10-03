@@ -18,10 +18,8 @@ soup = BeautifulSoup(index, "html.parser")
 tables = camelot.read_pdf('./data/outline2.pdf')
 weight_table = tables[0]
 
+
 class prof:
-    def __init__(self, x, y):
-        self.x, self.y = x, y
-class schedule:
     def __init__(self, x, y):
         self.x, self.y = x, y
 
@@ -60,10 +58,37 @@ try:
 except:
     print("No Office Hours Yet")
 
-prof_df = pd.DataFrame([t.__dict__ for t in prof_info]) 
+prof_df = pd.DataFrame([t.__dict__ for t in prof_info])
+
+
+date_list = []
+topic_list=[]
+#TODO: course schedule -> with google calender integration
+# find the tr that has td=week , td=Date , td=Topic
+page_9 = soup.find('div', {"id": "page_9"})
+schedule_header = page_9.find(lambda tag: tag.name == "td" and "Date" in tag.text)
+schedule_table = schedule_header.parent.parent
+tr_elements = schedule_table.find_all('tr')
+for i , tr in enumerate(tr_elements, 0):
+    if(i > 5):
+        for j, td in enumerate(tr,0):
+            p_tag = td.find("p")
+            if(p_tag == -1 ):
+                continue
+            else:
+                if (j == 1): 
+                    date = p_tag.getText()
+                    date_list.append(date)
+                else:
+                    topic = p_tag.getText()
+                    topic_list.append(topic)
+
+schedule_df = pd.DataFrame({'date': date_list,'topic': topic_list})
+
 
 with pd.ExcelWriter('output.xlsx') as writer:
     prof_df.to_excel(writer , sheet_name="Prof_info")
+    schedule_df.to_excel(writer, sheet_name="Schedule")
     df.to_excel(writer, sheet_name="Course Weight")
 wb= load_workbook(filename="./output.xlsx")
 book = wb.active
@@ -83,16 +108,11 @@ wb.save('output.xlsx')
 wb.close
 
 
-#TODO: course schedule -> with google calender integration
-# find the tr that has td=week , td=Date , td=Topic
-page_9 = soup.find('div', {"id": "page_9"})
-schedule_header = page_9.find(lambda tag: tag.name == "td" and "Date" in tag.text)
-schedule_table = schedule_header.parent.parent
-for rows in schedule_table:
-    print(rows)
-    for data in rows:
-        # print(data.find("p"))
-        pass
+
+            
+            
+        
+   
             
 
 # find the tr that has td=Date , td=Description
