@@ -65,11 +65,12 @@ sheet["E1"]= "Total Score"
 
 for i , cellObj in enumerate(sheet['E'], start=1):
     if i > 1 :
+        sheet[f"C{i}"]= int(sheet[f"C{i}"].value) / 100 
         print(sheet[f"C{i}"].value)
         sheet[f"C{i}"].number_format = FORMAT_PERCENTAGE
-        sheet[f"D{i}"].number_format = "0"
         cellObj.value =f'=C{i}*D{i}'
-        cellObj.number_format = FORMAT_PERCENTAGE
+sheet["D7"] = "Total"
+sheet["E7"].value ='=E2+E3+E4+E5+E6'
 wb.save('output.xlsx')
 wb.close
 
