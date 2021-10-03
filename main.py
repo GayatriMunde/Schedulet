@@ -8,14 +8,12 @@ app = Flask(__name__)
 @app.route('/')  
 def hello():  
     return render_template("index.html")
-
-# 
+ 
 @app.route('/', methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         uploaded_file.save('Files/' + uploaded_file.filename)
-        # neeed to do the conversion here ~ just run the filter.py method
         return redirect('success')
     return render_template(url_for('index'))
 
