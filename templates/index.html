@@ -2,12 +2,26 @@
 <html>
   <head>
     <title>File Upload</title>
+    <style>
+    body {
+      background-color: rgb(214, 224, 236);
+    }
+
+    h1 {
+      color: rgb(16, 61, 92);
+      margin-left: 40px;
+    }
+
+    </style>
   </head>
+
   <body>
     <h1>File Upload</h1>
     <form method="POST" action="" enctype="multipart/form-data">
-      <p><input type="file" name="file"></p>
-      <p><input type="submit" value="Submit"></p>
+      <div style="margin-left: 40px;">
+        <p><input type="file" name="file"></p>
+        <p><input type="submit" value="Submit"></p>
+      </div>
     </form>
   </body>
 </html>
