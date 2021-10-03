@@ -19,7 +19,7 @@ from openpyxl.styles.numbers import FORMAT_PERCENTAGE
 # tables = camelot.read_pdf('./data/outline2.pdf')
 # weight_table = tables[0]
 
-def filter(soup , weight_table):
+def filter(file, soup , weight_table):
 
     class prof:
         def __init__(self, x, y):
@@ -106,7 +106,7 @@ def filter(soup , weight_table):
     sheet["D7"] = "Total"
     sheet["E7"].value ='=E2+E3+E4+E5+E6'
 
-    wb.save('output.xlsx')
+    wb.save('uploads/' + file + '.xlsx')
     wb.close
 
 
